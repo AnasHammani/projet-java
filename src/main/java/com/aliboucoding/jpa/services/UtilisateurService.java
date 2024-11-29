@@ -1,7 +1,7 @@
 package com.aliboucoding.jpa.services;
 
-import com.aliboucoding.jpa.models.Utilisateur;
-import com.aliboucoding.jpa.repositories.UtilisateurRepository;
+import com.aliboucoding.jpa.user.Utilisateur;
+import com.aliboucoding.jpa.user.UtilisateurRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

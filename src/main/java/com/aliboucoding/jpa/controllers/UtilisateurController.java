@@ -1,6 +1,6 @@
 package com.aliboucoding.jpa.controllers;
 
-import com.aliboucoding.jpa.models.Utilisateur;
+import com.aliboucoding.jpa.user.Utilisateur;
 import com.aliboucoding.jpa.services.UtilisateurService;
 import org.springframework.web.bind.annotation.*;
 

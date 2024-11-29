@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/pizzas")
 
 @AllArgsConstructor
-//j'ai mis ça pour ne pas avoir besoin d ecrire le constructeur
+//j'ai mis ça pour ne pas avoir besoin d ecrire le constructeur testgit
 public class PizzaController {
 
     private final PizzaService pizzaService;
