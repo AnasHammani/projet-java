@@ -66,8 +66,8 @@ public class Utilisateur implements UserDetails {
     @Column(name = "adresse_utilisateur")
     private String adresse_user;
 
-    @NotNull(message="role user null !")
-    @NotEmpty(message="role user Empty !")
+    //@NotNull(message="role user null !")
+    //@NotEmpty(message="role user Empty !")
     @Column(name = "role_utilisateur")
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys; //Keys : une classe utilitaire pour créer
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service; //annotation Spring indiquant que c est un service qui gère la logique métier.
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.function.Function;
 public class JwtService {
 
     //C’est la clé secrète utilisée pour signer le JWT.
-    private static final String SECRET_KEY = "6a324c39396d474d3777424b66793636323571424b6f3466504e4d5563644151";
+    private  final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
 
 //	•	But : Offrir une version simplifiée de la génération de token, où tu n’as pas besoin de fournir de données `
@@ -51,7 +52,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
-                .signWith(getSignInKey(), SignatureAlgorithm.ES256)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
 
     }
@@ -59,8 +60,9 @@ public class JwtService {
     //Décode la clé secrète (en base64) pour la transformer en une clé utilisable par l’algorithme de signature HMAC-SHA.
     private Key getSignInKey() {
 
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); //decode secret_key en tableau d octets.
-        return Keys.hmacShaKeyFor(keyBytes);
+        //byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); //decode secret_key en tableau d octets.
+        //return Keys.hmacShaKeyFor(keyBytes);
+        return this.SECRET_KEY;
         // Utilise le tableau d’octets comme clé pour générer une clé HMAC-SHA
         // (un algorithme de signature utilisé pour valider les JWT).
     }
