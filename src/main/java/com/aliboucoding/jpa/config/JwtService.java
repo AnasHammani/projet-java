@@ -23,28 +23,16 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    //C’est la clé secrète utilisée pour signer le JWT.
+
     private  final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-
-//	•	But : Offrir une version simplifiée de la génération de token, où tu n’as pas besoin de fournir de données `
-//  	supplémentaires (les “claims”).
-//	•	Utilisation typique : Quand tu veux simplement générer un token pour un utilisateur,
-//  	sans ajouter d’informations personnalisées.
 
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(),userDetails);
     }
 
 
-//  •	But : Offrir une version avancée où tu peux ajouter des “claims” supplémentaires
-//     (des données spécifiques) au token.
-//	•	Utilisation typique : Si tu veux inclure des informations personnalisées
-//   	(comme un rôle ou une autre propriété utilisateur) dans le token.
-
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails
     ) {
         return Jwts
                 .builder()
@@ -57,17 +45,12 @@ public class JwtService {
 
     }
 
-    //Décode la clé secrète (en base64) pour la transformer en une clé utilisable par l’algorithme de signature HMAC-SHA.
+
     private Key getSignInKey() {
 
-        //byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); //decode secret_key en tableau d octets.
-        //return Keys.hmacShaKeyFor(keyBytes);
         return this.SECRET_KEY;
-        // Utilise le tableau d’octets comme clé pour générer une clé HMAC-SHA
-        // (un algorithme de signature utilisé pour valider les JWT).
+
     }
-
-
 
 
     //Le But : Récupérer le “sujet” du token, souvent l’email ou le nom d’utilisateur.
@@ -95,7 +78,7 @@ public class JwtService {
                 .parserBuilder()  // Crée un "parseur" (ou décodeur) pour le token JWT
                 .setSigningKey(getSignInKey())// On lui dit avec quelle clé il doit déchiffrer le message
                 .build()// Construction du parseur
-                .parseClaimsJws(token)// Ici, on déchiffre le token
+                .parseClaimsJws(token)// Ici, on analyse et verifie le token
                 .getBody();// On obtient les "revendications" (les infos à l'intérieur du token)
     }
 
@@ -114,23 +97,4 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-
-
-
 }
-
-
-//  L’enchaînement des méthodes de CETTE classe :
-
-//	•	Lire les données d’un token (comme ici avec extractClaim).
-//	•	Vérifier la validité (comme ici avec isTokenValid).
-//	•	Générer un token (comme ici avec generateToken).
-
-
-
-//                  Comment retenir tout ça ?
-//
-// Penser à cette classe en trois blocs :
-//	1.	Créer un token → Méthodes generateToken.
-//	2.	Lire un token → Méthodes extractClaim, extractUsername.
-//	3.	Vérifier un token → Méthodes isTokenValid, isTokenExpired.

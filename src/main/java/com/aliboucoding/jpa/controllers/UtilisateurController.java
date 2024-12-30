@@ -20,16 +20,6 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
     }
 
-    //TEST
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hello from secured endpoint");
-    }
-
-
-
-    // FIN DU TEST
 
     @GetMapping
     //GetMapping c est pour dire que quand un client effectue une requête Get avec l url

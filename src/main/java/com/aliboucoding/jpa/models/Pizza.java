@@ -9,7 +9,7 @@ import lombok.*;
 
 @Data //pour les setters et getters
 @NoArgsConstructor // constructeur sans argument
-@Entity
+@Entity //mapper une classe à une table de base de données
 
 public class Pizza {
 

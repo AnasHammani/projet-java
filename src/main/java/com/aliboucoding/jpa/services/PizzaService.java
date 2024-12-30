@@ -22,9 +22,6 @@ public class PizzaService {
 
     private final PizzaRepository pizzaRepository;
 
-//    public PizzaService(PizzaRepository pizzaRepository) {
-//        this.pizzaRepository = pizzaRepository;
-//    }
 
     public List<Pizza> getAllPizzas() {
         return pizzaRepository.findAll(); // Utilise le repository pour obtenir la liste des pizzas
@@ -36,18 +33,12 @@ public class PizzaService {
     }
 
     public void savePizza(Pizza pizza) {
-        // Valider l'objet pizza avant de le sauvegarder
-        //if(pizzaRepository.existsByNom_pizza(pizza.getNom_pizza())){
-
-            //throw new IllegalArgumentException("Pizza already exists");
-        //}
 
         try {
             pizzaRepository.save(pizza);
         }catch(DataIntegrityViolationException e) {
             throw new IllegalArgumentException("Pizza already exists in the database");
         }
-
 
     }
 

@@ -19,8 +19,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 // en utilisant les classes et configurations définies dans SecurityConfiguration.
 @RequiredArgsConstructor
 
-//cette classe sert à configurer le comportement de sécurité global de ton application.
-//C’est grâce à cette configuration que ton filtre JWT est effectivement appliqué à chaque requête client.
+
+//Cette classe configure la sécurité globale de ton application. Cela inclut :
+//	•	Définir quels endpoints sont accessibles à tous et lesquels nécessitent une authentification.
+//	•	Activer des mécanismes comme le filtrage des requêtes (ici, le filtre JWT).
+//	•	Configurer la politique de session (stateless pour les APIs avec JWT).
+
+
 public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -39,7 +44,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/api/v1/auth/**","/api/pizzas")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
