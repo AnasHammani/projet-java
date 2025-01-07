@@ -22,22 +22,11 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 
-//UserDetails est une interface fournie par Spring Security. Elle définit un contrat
-// (ou un ensemble de méthodes) que les classes représentant des utilisateurs doivent respecter
-// pour que Spring Security puisse les gérer efficacement, en particulier dans le cadre de
-// l’authentification et de l’autorisation.
+
 public class Utilisateur implements UserDetails {
 
     @Id
-
-/* Exemple de commentaire : GeneratedValue annotation
-    permet de générer automatiquemet le prochain numéro lors de l'ajout
-    */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-/* si le nom de la colonne dans la BDD est idPizza alr on peut juste mettre l'annotation @Column
-    Si on veut avoir des noms différents alr on rajoute (name="nom_du_champ_ds_bdd)
-    */
     @Column(name = "id_utilisateur")
     private Integer id_user;
 
@@ -66,14 +55,13 @@ public class Utilisateur implements UserDetails {
     @Column(name = "adresse_utilisateur")
     private String adresse_user;
 
-    //@NotNull(message="role user null !")
-    //@NotEmpty(message="role user Empty !")
+
     @Column(name = "role_utilisateur")
     @Enumerated(EnumType.STRING)
     private Role role;
 
 
-    @Override //fournit les rôles (ou autorités) de l’utilisateur
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
@@ -88,22 +76,22 @@ public class Utilisateur implements UserDetails {
         return email;
     }
 
-    @Override  //Indique si le compte de l’utilisateur est expiré.
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @Override //Indique si le compte de l’utilisateur est verrouillé.
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Override //Indique si les informations d’identification (mot de passe) de l’utilisateur ont expiré.
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override //Indique si l’utilisateur est activé
+    @Override
     public boolean isEnabled() {
         return true;
     }

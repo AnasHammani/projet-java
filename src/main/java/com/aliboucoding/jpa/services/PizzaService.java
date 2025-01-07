@@ -12,11 +12,6 @@ import java.util.List;
 
 
 @Service
-
-
-/*Je l'ai rajouté moi, ds la vidéo il a du en parler.
-ça permet d'éviter de créer sois meme un constructeur et initialiser les attributs
-*/
 @AllArgsConstructor
 public class PizzaService {
 
@@ -24,7 +19,7 @@ public class PizzaService {
 
 
     public List<Pizza> getAllPizzas() {
-        return pizzaRepository.findAll(); // Utilise le repository pour obtenir la liste des pizzas
+        return pizzaRepository.findAll();
     }
 
     public Pizza getPizzaById(Integer id) {

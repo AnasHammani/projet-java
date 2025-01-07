@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 
-//	•	Définit le chemin de base pour toutes les requêtes de la classe.
-//	•	Ici : toutes les routes de ce contrôleur commencent par /api/users.
+
 @RequestMapping("/api/users")
 
 public class UtilisateurController {
@@ -22,13 +21,10 @@ public class UtilisateurController {
 
 
     @GetMapping
-    //GetMapping c est pour dire que quand un client effectue une requête Get avec l url
-    // "api/users", SpringBoot execute la methode @GetMapping ci dessous
+
 
     public List<Utilisateur> getAllUser() {
 
-        //La méthode retourne une liste d’objets Utilisateur, que Spring Boot convertira
-        // automatiquement en JSON grâce à la bibliothèque Jackson (ou Gson) intégrée.
         return utilisateurService.getAllUser();
     }
 

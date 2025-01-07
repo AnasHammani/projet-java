@@ -16,16 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-// OBJECTIF DE CETTE CLASSE :
-//	1.	Trouver les informations d’un utilisateur dans la base de données.
-//	2.	Charger ses données (comme l’email, les rôles) pour l’authentification.
+
 public class ApplicationConfig {
 
     private final UtilisateurRepository repository;
 
     @Bean
-    //•	Un UserDetailsService est une interface utilisée par Spring Security pour charger un utilisateur
-    // en fonction de son nom d’utilisateur (dans ce cas, son email).
+
     public UserDetailsService userDetailsService() {
 
         return username -> repository.findByEmail(username)
@@ -35,33 +32,26 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        //•	DaoAuthenticationProvider est configuré pour utiliser UserDetailsService (c’est-à-dire la méthode
-        // que tu as définie précédemment (ci-dessus) pour charger l’utilisateur depuis la base de données).
+
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
-        // • Ce provider est chargé de la logique d’authentification : il vérifie si l’utilisateur existe
-        // (via UserDetailsService) et valide son mot de passe.
-        // • Le DaoAuthenticationProvider utilise un PasswordEncoder pour comparer le mot de passe saisi avec celui
-        //	stocké dans la base de données de manière sécurisée.
         return authProvider;
     }
 
     @Bean
-    //AuthenticationManager est un composant de Spring Security qui gère l’authentification des utilisateurs.
+
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-        //Cette méthode crée un bean AuthenticationManager qui sera utilisé pour valider les informations d’identification
-        // (email et mot de passe) lors de l’authentification.
+
     }
 
     @Bean
-    // PasswordEncoder est utilisé pour encoder et vérifier les mots de passe de manière sécurisée.
+
     public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
-        //Ici, BCryptPasswordEncoder est utilisé, un des algorithmes les plus sûrs pour gérer les mots de passe.
-        // Il permet de comparer les mdp de manière sécurisée en les “hashant” (cad en les transformant de manière irréversible).
+
     }
 
 
