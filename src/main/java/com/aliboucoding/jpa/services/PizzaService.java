@@ -37,4 +37,22 @@ public class PizzaService {
 
     }
 
+    public void updatePizza(Pizza pizza) {
+
+        Pizza existingPizza = pizzaRepository.findById(pizza.getId_pizza())
+                .orElseThrow(()->new IllegalArgumentException("Pizza not found"));
+
+        // Mettre à jour les champs
+        existingPizza.setNom_pizza(pizza.getNom_pizza());
+        existingPizza.setPrix_pizza(pizza.getPrix_pizza());
+        existingPizza.setDescription_pizza(pizza.getDescription_pizza());
+        existingPizza.setTaille_pizza(pizza.getTaille_pizza());
+        existingPizza.setTemps_preparation(pizza.getTemps_preparation());
+        existingPizza.setListe_ingredient(pizza.getListe_ingredient());
+
+        // Sauvegarde dans la base de données
+        pizzaRepository.save(existingPizza);
+
+    }
+
 }

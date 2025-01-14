@@ -27,7 +27,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .gsm_user(request.getGsm_user())
                 .adresse_user(request.getAdresse_user())
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
 
         repository.save(user);

@@ -50,8 +50,8 @@ public class ApplicationConfig {
 
     public PasswordEncoder passwordEncoder() {
 
-        return new BCryptPasswordEncoder();
 
+        return new BCryptPasswordEncoder();
     }
 
 

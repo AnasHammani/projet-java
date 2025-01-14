@@ -3,6 +3,7 @@ package com.aliboucoding.jpa.controllers;
 import com.aliboucoding.jpa.user.Utilisateur;
 import com.aliboucoding.jpa.services.UtilisateurService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RequestMapping("/api/users")
 
+//@PreAuthorize("hasRole('ADMIN')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -20,9 +22,8 @@ public class UtilisateurController {
     }
 
 
-    @GetMapping
-
-
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/get-all-user")
     public List<Utilisateur> getAllUser() {
 
         return utilisateurService.getAllUser();

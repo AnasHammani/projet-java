@@ -1,5 +1,6 @@
 package com.aliboucoding.jpa.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -62,8 +63,10 @@ public class Utilisateur implements UserDetails {
 
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
+
     }
 
     @Override

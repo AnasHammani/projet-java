@@ -20,8 +20,7 @@ public class JwtService {
 
 
     private  final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-
+    //private static final String SECRET_KEY = "mySuperSecretKey12345678901234567890";
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(),userDetails);
     }
@@ -34,9 +33,10 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+
 
     }
 
@@ -44,6 +44,7 @@ public class JwtService {
     private Key getSignInKey() {
 
         return this.SECRET_KEY;
+        //return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     }
 
@@ -66,13 +67,17 @@ public class JwtService {
 
 
     private Claims extractAllClaims(String token) {
-
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            System.err.println("JWT Parsing Error: " + e.getMessage());
+            throw e;
+        }
     }
 
     private Date extractExpiration(String token) {
