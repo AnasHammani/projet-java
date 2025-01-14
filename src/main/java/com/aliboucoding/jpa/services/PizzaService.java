@@ -12,22 +12,14 @@ import java.util.List;
 
 
 @Service
-
-
-/*Je l'ai rajouté moi, ds la vidéo il a du en parler.
-ça permet d'éviter de créer sois meme un constructeur et initialiser les attributs
-*/
 @AllArgsConstructor
 public class PizzaService {
 
     private final PizzaRepository pizzaRepository;
 
-//    public PizzaService(PizzaRepository pizzaRepository) {
-//        this.pizzaRepository = pizzaRepository;
-//    }
 
     public List<Pizza> getAllPizzas() {
-        return pizzaRepository.findAll(); // Utilise le repository pour obtenir la liste des pizzas
+        return pizzaRepository.findAll();
     }
 
     public Pizza getPizzaById(Integer id) {
@@ -36,11 +28,6 @@ public class PizzaService {
     }
 
     public void savePizza(Pizza pizza) {
-        // Valider l'objet pizza avant de le sauvegarder
-        //if(pizzaRepository.existsByNom_pizza(pizza.getNom_pizza())){
-
-            //throw new IllegalArgumentException("Pizza already exists");
-        //}
 
         try {
             pizzaRepository.save(pizza);
@@ -48,6 +35,23 @@ public class PizzaService {
             throw new IllegalArgumentException("Pizza already exists in the database");
         }
 
+    }
+
+    public void updatePizza(Pizza pizza) {
+
+        Pizza existingPizza = pizzaRepository.findById(pizza.getId_pizza())
+                .orElseThrow(()->new IllegalArgumentException("Pizza not found"));
+
+        // Mettre à jour les champs
+        existingPizza.setNom_pizza(pizza.getNom_pizza());
+        existingPizza.setPrix_pizza(pizza.getPrix_pizza());
+        existingPizza.setDescription_pizza(pizza.getDescription_pizza());
+        existingPizza.setTaille_pizza(pizza.getTaille_pizza());
+        existingPizza.setTemps_preparation(pizza.getTemps_preparation());
+        existingPizza.setListe_ingredient(pizza.getListe_ingredient());
+
+        // Sauvegarde dans la base de données
+        pizzaRepository.save(existingPizza);
 
     }
 

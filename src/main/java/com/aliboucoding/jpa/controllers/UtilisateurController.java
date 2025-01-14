@@ -1,16 +1,18 @@
 package com.aliboucoding.jpa.controllers;
 
-import com.aliboucoding.jpa.models.Utilisateur;
+import com.aliboucoding.jpa.user.Utilisateur;
 import com.aliboucoding.jpa.services.UtilisateurService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
 
-//	•	Définit le chemin de base pour toutes les requêtes de la classe.
-//	•	Ici : toutes les routes de ce contrôleur commencent par /api/users.
+
 @RequestMapping("/api/users")
 
+//@PreAuthorize("hasRole('ADMIN')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -19,14 +21,11 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
     }
 
-    @GetMapping
-    //GetMapping c est pour dire que quand un client effectue une requête Get avec l url
-    // "api/users", SpringBoot execute la methode @GetMapping ci dessous
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/get-all-user")
     public List<Utilisateur> getAllUser() {
 
-        //La méthode retourne une liste d’objets Utilisateur, que Spring Boot convertira
-        // automatiquement en JSON grâce à la bibliothèque Jackson (ou Gson) intégrée.
         return utilisateurService.getAllUser();
     }
 

@@ -7,20 +7,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Data //pour les setters et getters
-@NoArgsConstructor // constructeur sans argument
+@Data
+@NoArgsConstructor
 @Entity
 
 public class Pizza {
 
     @Id
-    /* Exemple de commentaire : GeneratedValue annotation
-    permet de générer automatiquemet le prochain numéro lors de l'ajout
-    */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    /* si le nom de la colonne dans la BDD est idPizza alr on peut juste mettre l'annoation @Column
-    Si on veut avoir des noms différents alr on rajoute (name="nom_du_champ_ds_bdd)
-    */
     @Column(name = "id_pizza")
     private Integer id_pizza;
 
