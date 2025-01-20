@@ -2,6 +2,7 @@ package com.aliboucoding.jpa.controllers;
 
 import com.aliboucoding.jpa.models.Pizza;
 import com.aliboucoding.jpa.services.PizzaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/pizzas")
+//@SecurityRequirement(name="bearerAuth") //swagger
 
 @AllArgsConstructor
 //j'ai mis ça pour ne pas avoir besoin d ecrire le constructeur testgit

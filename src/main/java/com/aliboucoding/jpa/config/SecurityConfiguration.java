@@ -38,7 +38,21 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**","/api/pizzas/get","/api/pizzas/{id}")
+                .requestMatchers(
+                        "/api/v1/auth/**",
+                        "/api/pizzas/get",
+                        "/api/pizzas/{id}",
+                        "/v2/api-docs", // FOR SWAGGER
+                        "/v3/api-docs", // FOR SWAGGER
+                        "/v3/api-docs/**",// FOR SWAGGER
+                        "/swagger-resources",// FOR SWAGGER
+                        "/swagger-resources/**",// FOR SWAGGER
+                        "/configuration/ui",// FOR SWAGGER
+                        "/configuration/security",// FOR SWAGGER
+                        "/swagger-ui/**",// FOR SWAGGER
+                        "/webjars/**",// FOR SWAGGER
+                        "/swagger-ui.html"// FOR SWAGGER
+                                )
                 .permitAll()
 
                 //.requestMatchers("/api/users/get-all-user").hasRole(ADMIN.name())
