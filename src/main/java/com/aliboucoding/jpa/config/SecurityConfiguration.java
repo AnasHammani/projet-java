@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 .requestMatchers(
                         "/api/v1/auth/**",
                         "/api/pizzas/get",
+                        //"/api/pizzas/update",  // A SUPPRIMER C ETAIT JUSTE POUR TESTER
                         "/api/pizzas/{id}",
                         "/v2/api-docs", // FOR SWAGGER
                         "/v3/api-docs", // FOR SWAGGER

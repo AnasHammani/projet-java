@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pizzas")
@@ -41,24 +43,29 @@ public class PizzaController {
     @PostMapping("/add")
     public ResponseEntity<String> addPizza(@RequestBody Pizza pizza) {
 
-        try {
-            pizzaService.savePizza(pizza);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Pizza ajoutée avec succès !");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erreur de validation: " + e.getMessage());
+        String response = pizzaService.savePizza(pizza);
+
+        if(response.equals("pizza added successfully")) {
+            return new ResponseEntity<>("pizza added successfully", HttpStatus.CREATED);
         }
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
-    public ResponseEntity<String> updatePizza(@Valid @RequestBody Pizza pizza) {
+    public ResponseEntity<String> updatePizza(@RequestBody  Pizza pizza) {
 
-        try {
-            pizzaService.updatePizza(pizza);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Pizza MODIFIER avec succès !");
+            String response = pizzaService.updatePizza(pizza);
 
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erreur pour UPDATE pizza: " + e.getMessage());
-        }
+            if(response.equals("pizza updated successfully")) {
+                return new ResponseEntity<>("pizza updated successfully", HttpStatus.CREATED);
+            }
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+
+
 }

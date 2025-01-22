@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +54,15 @@ public class UtilisateurController {
     }
 
     @PostMapping()
-    public Utilisateur addUser(@RequestBody Utilisateur utilisateur) {
+    public ResponseEntity<?> addUser(@RequestBody Utilisateur utilisateur) {
 
-        return utilisateurService.saveUser(utilisateur);
+        try{
+            Utilisateur savedUser = utilisateurService.saveUser(utilisateur);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
+
 }

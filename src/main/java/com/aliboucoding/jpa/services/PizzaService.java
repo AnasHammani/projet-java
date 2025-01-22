@@ -1,5 +1,6 @@
 package com.aliboucoding.jpa.services;
 
+import com.aliboucoding.jpa.Validator.PizzaValidator;
 import com.aliboucoding.jpa.models.Pizza;
 import com.aliboucoding.jpa.repositories.PizzaRepository;
 
@@ -17,6 +18,8 @@ public class PizzaService {
 
     private final PizzaRepository pizzaRepository;
 
+    private final PizzaValidator pizzaValidator;
+
 
     public List<Pizza> getAllPizzas() {
         return pizzaRepository.findAll();
@@ -27,17 +30,25 @@ public class PizzaService {
 
     }
 
-    public void savePizza(Pizza pizza) {
+    public String savePizza(Pizza pizza) {
 
-        try {
-            pizzaRepository.save(pizza);
-        }catch(DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Pizza already exists in the database");
+        var violations = pizzaValidator.validate(pizza);
+
+        if (!violations.isEmpty()) {
+            return String.join("\n", violations);
         }
 
+            pizzaRepository.save(pizza);
+
+        return "pizza added successfully";
     }
 
-    public void updatePizza(Pizza pizza) {
+    public String updatePizza(Pizza pizza) {
+
+        var violations = pizzaValidator.validate(pizza);
+        if (!violations.isEmpty()) {
+            return String.join("\n", violations);
+        }
 
         Pizza existingPizza = pizzaRepository.findById(pizza.getId_pizza())
                 .orElseThrow(()->new IllegalArgumentException("Pizza not found"));
@@ -52,6 +63,8 @@ public class PizzaService {
 
         // Sauvegarde dans la base de données
         pizzaRepository.save(existingPizza);
+
+        return "pizza updated successfully";
 
     }
 

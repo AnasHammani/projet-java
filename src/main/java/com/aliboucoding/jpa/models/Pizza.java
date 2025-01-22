@@ -2,9 +2,7 @@ package com.aliboucoding.jpa.models;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Data
@@ -19,33 +17,35 @@ public class Pizza {
     private Integer id_pizza;
 
 
-    @NotEmpty(message="nom vide ou null !")
+    @NotEmpty(message="nom vide !")
+    @Size(min=3, message = "Le nom de la pizza doit avoir au moins 3 caractères")
     @Column(name = "nom_pizza", unique = true,nullable = false)
     private String nom_pizza;
 
     @NotNull(message="prix null !")
     @Min(value=0,message="le prix doit etre superieur à 0 !")
     @Column(name = "prix_pizza")
-    private double prix_pizza;
+    private Double prix_pizza;
 
-    @NotNull(message="description null !")
-    @NotEmpty(message="description vide !")
+    @Size(min=10,message="La description doit contenir au moins 10 caractères !")
     @Column(name="description_pizza")
     private String description_pizza;
 
-    @NotNull(message="taille null !")
+    @Pattern(
+            regexp = "small|medium|large",
+            message = "La taille doit être 'small', 'medium' ou 'large' !"
+    )
     @NotEmpty(message="taille vide !")
     @Column(name="taille_pizza")
     private String taille_pizza;
 
 
-    @NotNull(message="temps preparation null !")
     @Min(value=0,message="le temps de preparation doit etre superieur à 0 !")
     @Column(name="temps_preparation")
     private Integer temps_preparation;
 
 
-    @NotNull(message="liste ingredient null !")
+
     @NotEmpty(message="liste ingredient vide !")
     @Column(name="liste_ingredient")
     private String liste_ingredient;

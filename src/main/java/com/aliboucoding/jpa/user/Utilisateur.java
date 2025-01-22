@@ -2,8 +2,10 @@ package com.aliboucoding.jpa.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,27 +33,29 @@ public class Utilisateur implements UserDetails {
     @Column(name = "id_utilisateur")
     private Integer id_user;
 
-    @NotNull(message="nom user null !")
+
     @NotEmpty(message="nom user Empty !")
     @Column(name = "nom_utilisateur")
     private String nom_user;
 
-    @NotNull(message="email user null !")
+
     @NotEmpty(message="email user Empty !")
+    @Email(message="Invalid email format !")
     @Column(name = "email_utilisateur",unique=true)
     private String email;
 
-    @NotNull(message="password user null !")
+
     @NotEmpty(message="password user Empty !")
     @Column(name = "mdp_utilisateur")
     private String password;
 
-    @NotNull(message="phone number user null !")
+
     @NotEmpty(message="phone number user Empty !")
+    @Pattern(regexp = "//d+",message = "Gsm must contain only numbers ! ")
     @Column(name = "gsm_utilisateur",unique=true)
     private String gsm_user;
 
-    @NotNull(message="adress user null !")
+
     @NotEmpty(message="adress user Empty !")
     @Column(name = "adresse_utilisateur")
     private String adresse_user;
